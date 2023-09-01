@@ -1,0 +1,3 @@
+id,password,last_login,is_superuser,username,is_staff,is_active,date_joined,email,role
+1,pbkdf2_sha256$600000$cUHg2iI4edi2CAMexk7CFs$3eU4aYmzdSsSqin+Rzsh+BoZH+GLQpXu02QW1zMeFc8=,2023-08-20 13:31:19.442142,1,admin,1,1,2023-08-19 17:07:22.945648,admin@admin.ru,user
+2,pbkdf2_sha256$600000$uzJBvHTO6YrAldlWbCmqRy$YGIYsXWkZPdCtZwny8Cf/9MKrvaM/S5xQ4uoxbRFWmk=,2023-08-24 12:51:53.691198,0,leo,0,1,2023-08-23 16:31:02.068771,leo@mail.ru,user

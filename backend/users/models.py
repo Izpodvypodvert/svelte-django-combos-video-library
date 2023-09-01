@@ -4,11 +4,12 @@ from django.db import models
 
 ADMIN = 'admin'
 USER = 'user'
-
+BANNED = 'banned'
 
 ROLES_CHOICES = [
     (ADMIN, ADMIN),
     (USER, USER),
+    (BANNED, BANNED),
 ]
 
 

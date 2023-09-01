@@ -98,6 +98,7 @@ class Combo(models.Model):
         Tag,
         verbose_name='Тэги',
         related_name="combos",
+        through='ComboTags'
     )
 
     class Meta:
@@ -107,6 +108,14 @@ class Combo(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ComboTags(models.Model):
+    combo = models.ForeignKey(Combo, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.combo} {self.tag}'
 
 
 class FavoriteCombo(models.Model):

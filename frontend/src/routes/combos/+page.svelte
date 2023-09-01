@@ -2,7 +2,8 @@
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
     import { state } from "../../store";
-
+    import { URL } from "../../constants"
+    import { parent } from "../../constants"
 
     let combos = []
     let kameos = []
@@ -20,19 +21,14 @@
     let iframeHeight = Math.round(iframeWidth / 1.64).toString()
 
     onMount(async () => {
-        let requestOptions1 = {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        authorization: `Token ${localStorage.getItem("auth_token")}`,
-                },}
-        const res = await fetch(`http://127.0.0.1:8000/api/v1/combos/?character__name=${character}`, requestOptions1);
+
+        const res = await fetch(`${URL}/api/v1/combos/?character__name=${character}`);
         combos = await res.json()
-        const res2 = await fetch('http://127.0.0.1:8000/api/v1/kameos', requestOptions1);
+        const res2 = await fetch(`${URL}/api/v1/kameos`);
 		kameos = await res2.json()
-        const res3 = await fetch('http://127.0.0.1:8000/api/v1/tags', requestOptions1);
+        const res3 = await fetch(`${URL}/api/v1/tags`);
 		tags = await res3.json()
-        // selectedTags = [...tags]
+       
 
     });
 
@@ -82,9 +78,8 @@
     }
 
     const addToFavorites = async (combo) => {
-        console.log($state.account.id, combo.id)
         let user = $state.account
-        let url = `http://localhost:8000/api/v1/combos/${combo.id}/favorite/`
+        let url = `${URL}/api/v1/combos/${combo.id}/favorite/`
         let requestOptions = {
                     method: "POST",
                     headers: {
@@ -143,7 +138,7 @@
         <div class="my-2"></div>
         <iframe
          title="mk1"
-         src={combo.clip_source == "T" ? `https://clips.twitch.tv/embed?clip=${combo.clip}&parent=localhost`: `http://www.youtube.com/embed/${combo.clip}`}
+         src={combo.clip_source == "T" ? `https://clips.twitch.tv/embed?clip=${combo.clip}&parent=${parent}`: `https://www.youtube.com/embed/${combo.clip}`}
          frameborder="0"
          allowfullscreen="true"
          scrolling="no"
@@ -151,10 +146,12 @@
          width={iframeWidth}
          >
         </iframe>
+        {#if $state.account}
         <button on:click={() => addToFavorites(combo)}
                 class="bg-orange-400 hover:bg-orange-600 text-white font-bold mt-2 mb-6 py-2 px-4 rounded-full"
             >add to favorites
         </button>
+        {/if}
     {/each}
 </ul>
 

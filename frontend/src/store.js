@@ -1,5 +1,5 @@
 import { get, writable } from "svelte/store"
-// import { sdk, server } from "./appwrite"
+import { URL } from "./constants"
 
 const checkResponse = async (res) => {
     if (res.ok) {
@@ -17,7 +17,7 @@ const createState = () => {
     return {
         subscribe,
         signup: async (email, password, username) => {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/users/`, {
+            const res = await fetch(`${URL}/api/v1/users/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -30,17 +30,14 @@ const createState = () => {
             return user
         },
         login: async (email, password) => {
-            const res = await fetch(
-                "http://localhost:8000/api/v1/token/login/",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        email,
-                        password,
-                    }),
-                }
-            )
+            const res = await fetch(`${URL}/api/v1/token/login/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            })
             const token = await checkResponse(res)
             if (token.auth_token) {
                 localStorage.setItem("auth_token", token.auth_token)
@@ -50,7 +47,7 @@ const createState = () => {
         },
         logout: async () => {
             const token = localStorage.getItem("auth_token")
-            fetch("http://localhost:8000/api/v1/token/logout/", {
+            fetch(`${URL}/api/v1/token/logout/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -64,7 +61,7 @@ const createState = () => {
                 return n
             }),
         getUser: async () => {
-            const res = await fetch(`http://localhost:8000/api/v1/users/me/`, {
+            const res = await fetch(`${URL}/api/v1/users/me/`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
