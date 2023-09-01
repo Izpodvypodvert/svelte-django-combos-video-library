@@ -1,0 +1,16 @@
+FROM python:3.10.11-slim-bullseye
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt --no-cache-dir
+
+COPY . .
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi"]
+
+
+# Энтрипоинт для локальной разработки
+#COPY ./entrypoint.sh ./backend/
+#ENTRYPOINT ["sh", "/app/backend/entrypoint.sh"]

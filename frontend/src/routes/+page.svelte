@@ -1,11 +1,11 @@
 <script>
 	import { onMount } from 'svelte';
 	import { state } from "../store";
-
+	import { URL } from "../constants"
 	let characters = []
 
 	onMount(async () => {
-		const res = await fetch('http://127.0.0.1:8000/api/v1/characters');
+		const res = await fetch(`${URL}/api/v1/characters`);
 		characters = await res.json()
 
 	});

@@ -1,5 +1,8 @@
 <script>
     import { onMount } from 'svelte';
+    import { URL } from "../../constants"
+    import { parent } from "../../constants"
+    import { state } from "../../store";
 
 let combos = []
 let characters = []
@@ -20,7 +23,7 @@ onMount(async () => {
                         "Content-Type": "application/json",
                         authorization: `Token ${localStorage.getItem("auth_token")}`,
                 },}
-    let url = `http://127.0.0.1:8000/api/v1/combos/?is_favorited=${Number(true)}`
+    let url = `${URL}/api/v1/combos/?is_favorited=${Number(true)}`
     const res = await fetch(url, requestOptions1);
     combos = await res.json()
     combos_backup = [...combos]
@@ -30,7 +33,7 @@ onMount(async () => {
 
 
 const removeFromFavorites = async (combo) => {
-        let url = `http://localhost:8000/api/v1/combos/${combo.id}/favorite/`
+        let url = `${URL}/api/v1/combos/${combo.id}/favorite/`
         let requestOptions = {
                     method: "DELETE",
                     headers: {
@@ -44,7 +47,7 @@ const removeFromFavorites = async (combo) => {
                         "Content-Type": "application/json",
                         authorization: `Token ${localStorage.getItem("auth_token")}`,
                 },}
-        let url2 = `http://127.0.0.1:8000/api/v1/combos/?is_favorited=${Number(true)}`
+        let url2 = `${URL}/api/v1/combos/?is_favorited=${Number(true)}`
         const res = await fetch(url2, requestOptions1);
         combos = await res.json()
 
@@ -56,6 +59,7 @@ const removeFromFavorites = async (combo) => {
        combos = combos_backup.filter(combo => combo.character.name == character_name)
    }
 </script>
+{#if $state.account}
 
 <h2 class="my-8 text-lg text-purple-800 font-bold">Choose your favorite characters: </h2>
 <div class="grid grid-rows-2 grid-flow-col gap-4">
@@ -83,7 +87,7 @@ const removeFromFavorites = async (combo) => {
         <div class="my-2"></div>
         <iframe
          title="mk1"
-         src={combo.clip_source == "T" ? `https://clips.twitch.tv/embed?clip=${combo.clip}&parent=localhost`: `http://www.youtube.com/embed/${combo.clip}`}
+         src={combo.clip_source == "T" ? `https://clips.twitch.tv/embed?clip=${combo.clip}&parent=${parent}`: `https://www.youtube.com/embed/${combo.clip}`}
          frameborder="0"
          allowfullscreen="true"
          scrolling="no"
@@ -98,8 +102,16 @@ const removeFromFavorites = async (combo) => {
         
     {/each}
 </ul>
-
-
+{:else}
+<a 
+    href="/sign-up" 
+    class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">
+    Sign up
+</a>
+<h1 class="my-8 text-lg text-purple-800 font-bold">
+    so that you can add combos to your favorites.
+</h1>
+{/if}
 <style>
     .badge {
   background-color: red;

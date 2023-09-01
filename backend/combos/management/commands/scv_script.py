@@ -7,11 +7,19 @@ from django.db import IntegrityError
 
 from combos.models import (
 
-    Tag,
+    Tag, Character, Kameo, Combo, FavoriteCombo, ComboTags
 )
+
+from users.models import User
 
 TABLES = {
     Tag: 'tags.csv',
+    Character: 'characters.csv',
+    Kameo: 'kameos.csv',
+    User: 'users.csv',
+    Combo: 'combos.csv',
+    FavoriteCombo: 'favoritecombos.csv',
+    ComboTags: 'combo_tags.csv',
 }
 
 
